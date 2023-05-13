@@ -1,6 +1,7 @@
 # CleanCPainter Command Line 🎨🖌️
+the shape drawing programming tool
 
-CleanCPainter is a command-line drawing tool that allows users to create and manage a variety of simple geometric shapes in a terminal. Users can draw points, lines, circles, squares, rectangles, and polygons by entering specific commands. The shapes are then plotted on a fixed-size board, and the user can list, delete, or erase shapes as needed.
+CleanCPainter is a command-line drawing tool realized by BOUDJEDID Julien and PHO Mattheo that allows users to create and manage a variety of simple geometric shapes in a terminal. Users can draw points, lines, circles, squares, rectangles, and polygons by entering specific commands. The shapes are then plotted on a fixed-size board, and the user can list, delete, or erase shapes as needed.
 
 ## Table of Contents
 
@@ -68,7 +69,7 @@ void drawLine(int x1, int y1, int x2, int y2, char board[BOARD_SIZE][BOARD_SIZE]
 
 ## Command Examples 🎨
 
-You can enter multiple commands in a single line, separated by semicolons. Here are some notable command examples:
+You can enter **multiple commands in a single line**, separated by semicolons. Here are some notable command examples:
 
 ### Example 1: Pentagram enclosed in a circle 🌟
 
