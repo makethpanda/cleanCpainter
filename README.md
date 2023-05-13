@@ -1,6 +1,9 @@
 # CleanCPainter Command Line 🎨🖌️
 the shape drawing programming tool
 
+<img width="424" alt="image" src="https://github.com/makethpanda/cleanCpainter/assets/42862794/5845c63e-b189-4904-9820-5968c7b03d50">
+
+
 CleanCPainter is a command-line drawing tool realized by BOUDJEDID Julien and PHO Mattheo that allows users to create and manage a variety of simple geometric shapes in a terminal. Users can draw points, lines, circles, squares, rectangles, and polygons by entering specific commands. The shapes are then plotted on a fixed-size board, and the user can list, delete, or erase shapes as needed.
 
 ## Table of Contents
@@ -86,6 +89,8 @@ This command creates a circle with a center at (15, 15) and a radius of 14. It t
 ```plaintext
 circle 10 10 2;circle 20 10 2;line 10 20 20 20;line 5 25 25 25;plot
 ```
+<img width="418" alt="image" src="https://github.com/makethpanda/cleanCpainter/assets/42862794/cd72444c-7654-41d4-9f61-4272c0dd3e50">
+
 
 This command creates two small circles for eyes, a line for the nose, and a line for the mouth. The `plot` command displays the resulting smiley face.
 
@@ -94,6 +99,8 @@ This command creates two small circles for eyes, a line for the nose, and a line
 ```plaintext
 rectangle 5 15 20 10;polygon 5 15 15 5 25 15;line 8 20 8 25;line 22 20 22 25;plot
 ```
+<img width="431" alt="image" src="https://github.com/makethpanda/cleanCpainter/assets/42862794/c93ffdb5-fc9d-43c6-99ee-896a30b51134">
+
 
 This command creates a rectangle for the house body, a polygon for the roof, and two lines for the door. The `plot` command displays the resulting house image.
 
