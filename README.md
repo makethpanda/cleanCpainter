@@ -76,6 +76,8 @@ You can enter **multiple commands in a single line**, separated by semicolons. H
 ```plaintext
 circle 15 15 14;line 1 15 29 15;line 15 1 15 29;polygon 15 1 8 22 22 22;polygon 15 29 8 8 22 8;plot
 ```
+<img width="422" alt="image" src="https://github.com/makethpanda/cleanCpainter/assets/42862794/9b043df4-f0ec-43c9-b0ab-4bcc86613728">
+
 
 This command creates a circle with a center at (15, 15) and a radius of 14. It then draws two lines that cross the circle horizontally and vertically. Finally, it creates two polygons that together form a pentagram. The `plot` command at the end refreshes the screen to display the resulting image.
 
