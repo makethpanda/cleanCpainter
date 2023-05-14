@@ -4,6 +4,16 @@
 #include "commands.h"
 #include "shapes.h"
 
+int stringToint(char* str) {
+    int result = 0;
+    int i = 0;
+    while(str[i] != '\0') {
+        result = result * 10 + (str[i] - '0');
+        i++;
+    }
+    return result;
+}
+
 Command* parseCommand(char command[]){
     int i = 0;
     //make sure commandType has memory allocated
@@ -26,6 +36,7 @@ Command* parseCommand(char command[]){
             k = 0;
         }
         else{
+            //convert the char to int
             k = k * 10 + command[i] - '0';
         }
         i++;
@@ -39,12 +50,8 @@ Command* parseCommand(char command[]){
     ex: square 10 10 10
     output: 0 10 10 10
     tofix we do this:
-    
-    //get last param
-    param[j] = '-8888';
-    j++;*/
+*/
     param[j] = k;
-    //j++;
     //remove the first element of the array
     for(int i = 0; i < j; i++){
         param[i] = param[i + 1];
@@ -63,16 +70,24 @@ void executeCommand(Command* comm){
     Command cmd = *comm;
     //create verbose flag
     int verbose = 0;
-    //if the first parameter is '-v' we remove it and set the verbose flag to 1
+    //look for -verbose in the command
     if(cmd.parameters[0] == 46017023){
-
         verbose = 1;
-        //remove the first element of the array
+        printf("\033[32m[verbose]\033[0mVerbose mode on\n");
+        //remove the element from the array
         for(int i = 0; i < cmd.paramNum; i++){
             cmd.parameters[i] = cmd.parameters[i + 1];
         }
         cmd.paramNum--;
+        printf("\033[32m[verbose]\033[0mCommand: %s\n", cmd.commandName);
+        //print params
+        printf("\033[32m[verbose]\033[0mParameters:");
+        for(int i = 0; i < cmd.paramNum; i++){
+            printf("%d ", cmd.parameters[i]);
+        }
+        printf("\n");
     }
+    
     if(strcmp(cmd.commandName, "clear") == 0){
         //clear terminal screen
         system("clear");
@@ -216,19 +231,137 @@ void executeCommand(Command* comm){
         erase();
     }
     else if(strcmp(cmd.commandName, "help") == 0){
-        printf("clear : clear the screen\n");
-        printf("exit : exit the program\n");
-        printf("point x y : add a point\n");
-        printf("line x1 y1 x2 y2 : add a segment connecting two points (x1, y1) and (x2, y2)\n");
-        printf("circle x y radius : add a circle of centre (x, y) and a radius radius\n");
-        printf("square x y length : add a square whose upper left corner is (x, y) and whose side is length.\n");
-        printf("rectangle x y width height : add a rectangle whose upper left corner is (x, y), whose width is width and whose height is height\n");
-        printf("polygon x1 y1 x2 y2 x3 y3 ... ... : add a polygon with the list of given points\n");
-        printf("plot : refresh the screen to display all the geometric shapes in the image (depending on the display rules)\n");
-        printf("list : display a list of all the geometric shapes that make up the image and all their information\n");
-        printf("delete id : delete a shape from its identifier id.\n");
-        printf("erase : remove all shapes from an image.\n");
-        printf("help : display the list of commands\n");
+        //if they are no parameters display the help menu
+        if(cmd.paramNum == 0){
+            printf("\033[1mhelp <command>\033[0m\n");
+            printf("displays the help menu for the specified command, use \033[1mall\033[0m for all commands\n");
+        }
+        else{
+            // use the convert function to compare the command parameter to the converted string
+            if (cmd.parameters[0] == stringToint("all")){
+                printf("\033[1mAvailable commands:\033[0m\n");
+                printf("    \033[1mclear\033[0m\n");
+                printf("    \033[1mexit\033[0m\n");
+                printf("    \033[1mpoint\033[0m\n");
+                printf("    \033[1mline\033[0m\n");
+                printf("    \033[1mcircle\033[0m\n");
+                printf("    \033[1msquare\033[0m\n");
+                printf("    \033[1mrectangle\033[0m\n");
+                printf("    \033[1mpolygon\033[0m\n");
+                printf("    \033[1mplot\033[0m\n");
+                printf("    \033[1mlist\033[0m\n");
+                printf("    \033[1mdelete\033[0m\n");
+                printf("    \033[1merase\033[0m\n");
+                printf("    \033[1mhelp\033[0m\n");
+            }
+            else if (cmd.parameters[0] == stringToint("clear")){
+                printf("\033[1musage:\033[0m\n");
+                printf("    $:clear (-verbose)\n");
+                printf("clears the screen\n");
+                printf("\033[1mverbose:\033[0m optional parameter used for debugging\n");
+            }
+            else if (cmd.parameters[0] == stringToint("exit")){
+                printf("\033[1musage:\033[0m\n");
+                printf("    $:exit (-verbose)\n");
+                printf("exits the program\n");
+                printf("\033[1mverbose:\033[0m optional parameter used for debugging\n");
+            }
+            else if (cmd.parameters[0] == stringToint("point")){
+                printf("\033[1musage:\033[0m\n");
+                printf("    $:point (-verbose) <x1> <y1>\n");
+                printf("adds a point to the image\n");
+                printf("\033[1mverbose:\033[0m optional parameter used for debugging\n");
+                printf("\033[1mx1:\033[0m x coordinate of the point\n");
+                printf("\033[1my1:\033[0m y coordinate of the point\n");
+            }
+            else if (cmd.parameters[0] == stringToint("line")){
+                printf("\033[1musage:\033[0m\n");
+                printf("    $:line (-verbose) <x1> <y1> <x2> <y2>\n");
+                printf("adds a line to the image\n");
+                printf("\033[1mverbose:\033[0m optional parameter used for debugging\n");
+                printf("\033[1mx1:\033[0m x coordinate of the first point\n");
+                printf("\033[1my1:\033[0m y coordinate of the first point\n");
+                printf("\033[1mx2:\033[0m x coordinate of the second point\n");
+                printf("\033[1my2:\033[0m y coordinate of the second point\n");
+            }
+            else if (cmd.parameters[0] == stringToint("circle")){
+                printf("\033[1musage:\033[0m\n");
+                printf("    $:circle (-verbose) <x1> <y1> <radius>\n");
+                printf("adds a circle to the image\n");
+                printf("\033[1mverbose:\033[0m optional parameter used for debugging\n");
+                printf("\033[1mx1:\033[0m x coordinate of the center of the circle\n");
+                printf("\033[1my1:\033[0m y coordinate of the center of the circle\n");
+                printf("\033[1mradius:\033[0m radius of the circle\n");
+            }
+            else if (cmd.parameters[0] == stringToint("square")){
+                printf("\033[1musage:\033[0m\n");
+                printf("    $:square (-verbose) <x1> <y1> <length>\n");
+                printf("adds a square to the image\n");
+                printf("\033[1mverbose:\033[0m optional parameter used for debugging\n");
+                printf("\033[1mx1:\033[0m x coordinate of the upper left corner of the square\n");
+                printf("\033[1my1:\033[0m y coordinate of the upper left corner of the square\n");
+                printf("\033[1mlength:\033[0m length of the square\n");
+            }
+            else if (cmd.parameters[0] == stringToint("rectangle")){
+                printf("\033[1musage:\033[0m\n");
+                printf("    $:rectangle (-verbose) <x1> <y1> <width> <height>\n");
+                printf("adds a rectangle to the image\n");
+                printf("\033[1mverbose:\033[0m optional parameter used for debugging\n");
+                printf("\033[1mx1:\033[0m x coordinate of the upper left corner of the rectangle\n");
+                printf("\033[1my1:\033[0m y coordinate of the upper left corner of the rectangle\n");
+                printf("\033[1mwidth:\033[0m width of the rectangle\n");
+                printf("\033[1mheight:\033[0m height of the rectangle\n");
+            }
+            else if (cmd.parameters[0] == stringToint("polygon")){
+                printf("\033[1musage:\033[0m\n");
+                printf("    $:polygon (-verbose) <x1> <y1> <x2> <y2> <x3> <y3> ...\n");
+                printf("adds a polygon to the image\n");
+                printf("\033[1mverbose:\033[0m optional parameter used for debugging\n");
+                printf("\033[1mx1:\033[0m x coordinate of the first point\n");
+                printf("\033[1my1:\033[0m y coordinate of the first point\n");
+                printf("\033[1mx2:\033[0m x coordinate of the second point\n");
+                printf("\033[1my2:\033[0m y coordinate of the second point\n");
+                printf("...\n");
+                printf("\033[1mxn:\033[0m x coordinate of the nth point\n");
+                printf("\033[1myn:\033[0m y coordinate of the nth point\n");
+            }
+            else if (cmd.parameters[0] == stringToint("plot")){
+                printf("\033[1musage:\033[0m\n");
+                printf("    $:plot (-verbose)\n");
+                printf("refreshes the screen to display all the geometric shapes in the image\n");
+                printf("\033[1mverbose:\033[0m optional parameter used for debugging\n");
+            }
+            else if (cmd.parameters[0] == stringToint("list")){
+                printf("\033[1musage:\033[0m\n");
+                printf("    $:list (-verbose) \n");
+                printf("displays a list of all the geometric shapes that make up the image and all their information\n");
+                printf("\033[1mverbose:\033[0m optional parameter used for debugging\n");
+            }
+            else if (cmd.parameters[0] == stringToint("delete")){
+                printf("\033[1musage:\033[0m\n");
+                printf("    $:delete (-verbose) <id>\n");
+                printf("deletes a shape from its identifier id.\n");
+                printf("\033[1mverbose:\033[0m optional parameter used for debugging\n");
+                printf("\033[1mid:\033[0m identifier of the shape to delete\n");
+            }
+            else if (cmd.parameters[0] == stringToint("erase")){
+                printf("\033[1musage:\033[0m\n");
+                printf("    $:erase (-verbose) \n");
+                printf("removes all shapes from an image.\n");
+                printf("\033[1mverbose:\033[0m optional parameter used for debugging\n");
+            }
+            else if (cmd.parameters[0] == stringToint("help")){
+                printf("\033[1musage:\033[0m\n");
+                printf("    $:help (-verbose)\n");
+                printf("displays the list of commands\n");
+                printf("\033[1mverbose:\033[0m optional parameter used for debugging\n");
+            }
+            else{
+                printf("\033[1mnot a valid parameter\033[0m\n");
+            }
+
+        }
+    //if there is a parameter related to a function
     }
     else{
         //return the input and say it was invalid

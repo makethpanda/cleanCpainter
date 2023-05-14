@@ -9,7 +9,7 @@ typedef struct Command{
     //number of parameters
     int paramNum;
 } Command;
-
+int stringToint(char* str);
 Command* parseCommand(char command[]);
 void executeCommand(Command* comm);
 #endif 
