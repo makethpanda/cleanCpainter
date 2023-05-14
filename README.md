@@ -35,7 +35,7 @@ The code is organized in the following files:
 - `main.c`: Contains the main loop that handles user input and command execution.
 - `commands.c` and `commands.h`: Contains functions to parse and execute user-entered commands.
 - `shapes.c` and `shapes.h`: Contains functions to manage, draw, list, delete, and erase shapes.
--`readfiles.c` and `readfiles.h`: Contains functions to read and execute instructions from files
+- `readfiles.c` and `readfiles.h`: Contains functions to read and execute instructions from files
 
 ## Interesting Parts 🔍
 
