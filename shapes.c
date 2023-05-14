@@ -7,12 +7,18 @@
 Shape shapes[MAX_SHAPES];
 int shapeCount = 0;
 
-void addShape(Shape shape) {
+void addShape(Shape shape, int verbose) {
     if (shapeCount >= MAX_SHAPES) {
         printf("Cannot add more shapes. Maximum number of shapes reached.\n");
         return;
     }
+    if (verbose) {
+        printf("\033[32m[verbose]\033[0msetting shape id to %d\n", shapeCount);
+    }
     shape.id = shapeCount;
+    if (verbose) {
+        printf("\033[32m[verbose]\033[0madding shape to shapes array\n");
+    }
     shapes[shapeCount++] = shape;
 }
 
@@ -35,7 +41,7 @@ void drawLine(int x1, int y1, int x2, int y2, char board[BOARD_SIZE][BOARD_SIZE]
 }
 
 
-void plot() {
+void plot(int verbose) {
     char board[BOARD_SIZE][BOARD_SIZE];
     memset(board, '.', sizeof(board));
 
@@ -43,14 +49,24 @@ void plot() {
         Shape shape = shapes[i];
         switch (shape.type) {
             case POINT:
+                if (verbose) {
+                    printf("\033[32m[verbose]\033[0mPlotting point at (%d, %d)\n", shape.point.x, shape.point.y);
+                }
                 board[shape.point.y][shape.point.x] = 'P';
                 break;
             case LINE:
+                if (verbose) {
+                    printf("\033[32m[verbose]\033[0mPlotting line from (%d, %d) to (%d, %d) using Bresenham's algorithm...\n", shape.line.start.x, shape.line.start.y,
+                           shape.line.end.x, shape.line.end.y);
+                }
                 drawLine(shape.line.start.x, shape.line.start.y,
                          shape.line.end.x, shape.line.end.y, board);
                 //printf
                 break;
             case CIRCLE:
+                if (verbose) {
+                    printf("\033[32m[verbose]\033[0mPlotting circle with center (%d, %d) and radius %d\n", shape.circle.center.x, shape.circle.center.y, shape.circle.radius);
+                }
                 for (int x = -shape.circle.radius; x <= shape.circle.radius; x++) {
                     for (int y = -shape.circle.radius; y <= shape.circle.radius; y++) {
                         int distSquared = x * x + y * y;
@@ -66,6 +82,9 @@ void plot() {
                 }
                 break;
             case SQUARE:
+                if (verbose) {
+                    printf("\033[32m[verbose]\033[0mPlotting square with top left corner at (%d, %d) and side length %d\n", shape.square.topLeft.x, shape.square.topLeft.y, shape.square.length);
+                }
                 for (int x = shape.square.topLeft.x; x < shape.square.topLeft.x + shape.square.length; x++) {
                     for (int y = shape.square.topLeft.y; y < shape.square.topLeft.y + shape.square.length; y++) {
                         board[y][x] = 'S';
@@ -73,6 +92,9 @@ void plot() {
                 }
                 break;
             case RECTANGLE:
+                if (verbose) {
+                    printf("\033[32m[verbose]\033[0mPlotting rectangle with top left corner at (%d, %d) and width %d and height %d\n", shape.rectangle.topLeft.x, shape.rectangle.topLeft.y, shape.rectangle.width, shape.rectangle.height);
+                }
                 for (int x = shape.rectangle.topLeft.x; x < shape.rectangle.topLeft.x + shape.rectangle.width; x++) {
                     for (int y = shape.rectangle.topLeft.y; y < shape.rectangle.topLeft.y + shape.rectangle.height; y++) {
                         board[y][x] = 'R';
@@ -80,8 +102,18 @@ void plot() {
                 }
                 break;
             case POLYGON:
-                
+                if (verbose) {
+                    printf("\033[32m[verbose]\033[0mdividing polygon into lines between %d points\n", shape.polygon.count/2);
+                }
                 for (int i = 0; i < shape.polygon.count/2 - 1; i++) {
+                    if (verbose) {
+                        printf("\033[32m[verbose]\033[0mPlotting line from (%d, %d) to (%d, %d) using Bresenham's algorithm...\n", shape.polygon.points[i].x, shape.polygon.points[i].y,
+                               shape.polygon.points[i + 1].x, shape.polygon.points[i + 1].y);
+                    }
+                    if (verbose) {
+                        printf("\033[32m[verbose]\033[0mPlotting line from (%d, %d) to (%d, %d) using Bresenham's algorithm...\n", shape.polygon.points[shape.polygon.count/2-1].x, shape.polygon.points[shape.polygon.count/2-1].y,
+                               shape.polygon.points[0].x, shape.polygon.points[0].y);
+                    }
                     drawLine(shape.polygon.points[i].x, shape.polygon.points[i].y,
                              shape.polygon.points[i + 1].x, shape.polygon.points[i + 1].y, board);
                 }

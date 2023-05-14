@@ -58,8 +58,8 @@ typedef struct {
 extern Shape shapes[MAX_SHAPES];
 extern int shapeCount;
 
-void addShape(Shape shape);
-void plot();
+void addShape(Shape shape, int verbose);
+void plot(int verbose);
 void listShapes();
 void deleteShape(int id);
 void erase();

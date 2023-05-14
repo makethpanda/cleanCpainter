@@ -61,6 +61,18 @@ Command* parseCommand(char command[]){
 //execute the command
 void executeCommand(Command* comm){
     Command cmd = *comm;
+    //create verbose flag
+    int verbose = 0;
+    //if the first parameter is '-v' we remove it and set the verbose flag to 1
+    if(cmd.parameters[0] == 46017023){
+
+        verbose = 1;
+        //remove the first element of the array
+        for(int i = 0; i < cmd.paramNum; i++){
+            cmd.parameters[i] = cmd.parameters[i + 1];
+        }
+        cmd.paramNum--;
+    }
     if(strcmp(cmd.commandName, "clear") == 0){
         //clear terminal screen
         system("clear");
@@ -76,8 +88,15 @@ void executeCommand(Command* comm){
             return;
         }
         else{
+            //if verbose print
+            if(verbose){
+                printf("\033[32m[verbose]\033[0mCreating point: (%d, %d)\n", cmd.parameters[0], cmd.parameters[1]);
+            }
             Shape point = {.type = POINT, .point = {cmd.parameters[0], cmd.parameters[1]}};
-            addShape(point);
+            addShape(point, verbose);
+            if (verbose){
+                printf("\033[32m[verbose]\033[0mPoint created\n");
+            }
         }
     }
     else if(strcmp(cmd.commandName, "line") == 0){
@@ -87,10 +106,14 @@ void executeCommand(Command* comm){
             return;
         }
         else{
-            //allocate memory for the line
-
+            if (verbose){
+                printf("\033[32m[verbose]\033[0mCreating line: (%d, %d) (%d, %d)\n", cmd.parameters[0], cmd.parameters[1], cmd.parameters[2], cmd.parameters[3]);
+            }
             Shape line = {.type = LINE, .line = {{cmd.parameters[0], cmd.parameters[1]}, {cmd.parameters[2], cmd.parameters[3]}}};
-            addShape(line);
+            addShape(line, verbose);
+            if (verbose){
+                printf("\033[32m[verbose]\033[0mLine created\n");
+            }
         }
     }
     else if(strcmp(cmd.commandName, "circle") == 0){
@@ -100,8 +123,14 @@ void executeCommand(Command* comm){
             return;
         }
         else{
+            if (verbose){
+                printf("\033[32m[verbose]\033[0mCreating circle: (%d, %d) %d\n", cmd.parameters[0], cmd.parameters[1], cmd.parameters[2]);
+            }
             Shape circle = {.type = CIRCLE, .circle = {{cmd.parameters[0], cmd.parameters[1]}, cmd.parameters[2]}};
-            addShape(circle);
+            addShape(circle, verbose);
+            if (verbose){
+                printf("\033[32m[verbose]\033[0mCircle created\n");
+            }
         }
     }
     else if(strcmp(cmd.commandName, "square") == 0){
@@ -111,8 +140,14 @@ void executeCommand(Command* comm){
             return;
         }
         else{
+            if (verbose){
+                printf("\033[32m[verbose]\033[0mCreating square: (%d, %d) %d\n", cmd.parameters[0], cmd.parameters[1], cmd.parameters[2]);
+            }
             Shape square = {.type = SQUARE, .square = {{cmd.parameters[0], cmd.parameters[1]}, cmd.parameters[2]}};
-            addShape(square);
+            addShape(square, verbose);
+            if (verbose){
+                printf("\033[32m[verbose]\033[0mSquare created\n");
+            }
         }
     }
     else if(strcmp(cmd.commandName, "rectangle") == 0){
@@ -122,8 +157,14 @@ void executeCommand(Command* comm){
             return;
         }
         else{
+            if (verbose){
+                printf("\033[32m[verbose]\033[0mCreating rectangle: (%d, %d) %d %d\n", cmd.parameters[0], cmd.parameters[1], cmd.parameters[2], cmd.parameters[3]);
+            }
             Shape rectangle = {.type = RECTANGLE, .rectangle = {{cmd.parameters[0], cmd.parameters[1]}, cmd.parameters[2], cmd.parameters[3]}};
-            addShape(rectangle);
+            addShape(rectangle, verbose);
+            if (verbose){
+                printf("\033[32m[verbose]\033[0mRectangle created\n");
+            }
         }
     }
     else if(strcmp(cmd.commandName, "polygon") == 0){
@@ -133,6 +174,14 @@ void executeCommand(Command* comm){
             return;
         }
         else{
+            if (verbose){
+                printf("\033[32m[verbose]\033[0mCreating polygon: ");
+                for(int i = 0; i < cmd.paramNum; i++){
+                    printf("(%d, %d) ", cmd.parameters[i], cmd.parameters[i + 1]);
+                    i++;
+                }
+                printf("\n");
+            }
             Polygon polygon;
             polygon.count = cmd.paramNum;
 
@@ -143,13 +192,19 @@ void executeCommand(Command* comm){
                 polygon.points[i].y = cmd.parameters[j + 1];
                 j += 2;
             }
+            if (verbose){
+                printf("\033[32m[verbose]\033[0mPolygon created\n");
+            }
             
             Shape shape = {.type = POLYGON, .polygon = polygon};
-            addShape(shape);
+            addShape(shape, verbose);
+            if (verbose){
+                printf("\033[32m[verbose]\033[0mPolygon created\n");
+            }
         }
     }
     else if(strcmp(cmd.commandName, "plot") == 0){
-        plot();
+        plot(verbose);
     }
     else if(strcmp(cmd.commandName, "list") == 0){
         listShapes();
