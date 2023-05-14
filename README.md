@@ -10,11 +10,11 @@ CleanCPainter is a command-line drawing tool realized by BOUDJEDID Julien and PH
 
 ## Table of Contents
 
-- [Features](#features)
-- [Code Structure](#code-structure)
-- [Interesting Parts](#interesting-parts)
-- [Challenges Faced](#challenges-faced)
-- [Command Examples](#command-examples)
+- [Features](##features)
+- [Code Structure](##code-structure)
+- [Interesting Parts](##interesting-parts)
+- [Challenges Faced](##challenges-faced)
+- [Command Examples](##command-examples)
 - [Usage](#usage)
 
 ## Features ⭐
@@ -112,7 +112,7 @@ example ccp file content:
 - [from files](###file examples)
 
 
-###CLI examples
+### CLI examples
 
 You can enter **multiple commands in a single line**, separated by semicolons. Here are some notable command examples:
 
@@ -146,9 +146,9 @@ rectangle 5 15 20 10;polygon 5 15 15 5 25 15;line 8 20 8 25;line 22 20 22 25;plo
 
 This command creates a rectangle for the house body, a polygon for the roof, and two lines for the door. The `plot` command displays the resulting house image.
 
-###file examples
+### file examples
 
-###pentagram file 
+### pentagram file 
 
 included in the source code is a tests folder containing penta.ccp, a test file you can try out yourself, just run the .exe and type in:
 
