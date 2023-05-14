@@ -215,7 +215,7 @@ void executeCommand(Command* comm){
     }
     else if(strcmp(cmd.commandName, "polygon") == 0){
         //if num params is not even
-        if(cmd.paramNum % 2 != 0){
+        if(cmd.paramNum % 2 != 0 || cmd.paramNum < 2){
             printf("Invalid number of parameters for polygon\n");
             return;
         }
