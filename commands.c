@@ -3,6 +3,7 @@
 #include <string.h>
 #include "commands.h"
 #include "shapes.h"
+#include "readfiles.h"
 
 int stringToint(char* str) {
     int result = 0;
@@ -45,6 +46,21 @@ Command* parseCommand(char command[]){
     // Allocate memory for the command name and copy the value
     cmd->commandName = (char *) malloc((strlen(commandType) + 1) * sizeof(char));
     strcpy(cmd->commandName, commandType);
+    //if the command is a file command
+    if (strcmp(commandType, "file") == 0){
+        // instead of parameters we will have to get the path to a file
+        // create int path and allocate memory for it
+        int* path = (int *) malloc((strlen(command) + 1) * sizeof(int));
+        // copy the path to the path variable
+        strcpy((char *) path, command + 5);
+        fileCommand((char *) path, 0);
+        // Make sure to free the allocated memory
+        free(path);
+        //make command
+        cmd->parameters = NULL;
+        cmd->paramNum = 0;
+        return cmd;
+    }
     /*
     PROBLEM: the output params are not correct
     ex: square 10 10 10
@@ -71,7 +87,7 @@ void executeCommand(Command* comm){
     //create verbose flag
     int verbose = 0;
     //look for -verbose in the command
-    if(cmd.parameters[0] == 46017023){
+    if(cmd.paramNum > 0 && cmd.parameters[0] == 46017023){
         verbose = 1;
         printf("\033[32m[verbose]\033[0mVerbose mode on\n");
         //remove the element from the array
@@ -89,8 +105,7 @@ void executeCommand(Command* comm){
     }
     
     if(strcmp(cmd.commandName, "clear") == 0){
-        //clear terminal screen
-        system("clear");
+        printf("\033[2J\033[1;1H");
     }
     else if(strcmp(cmd.commandName, "exit") == 0){
         printf("Exiting program...\n");
