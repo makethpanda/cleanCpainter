@@ -8,18 +8,27 @@
 //function to convert a file to a command
 
 void fileCommand(char* fileName, char verbose){
+    FILE* file = fopen(fileName, "r");
+    if(verbose == 1){
+    printf("\033[32m[verbose]\033[0mChecking if file exists...\n");
+    }
+    if(file == NULL){
+        //red print
+        printf("\033[1;31mError: file does not exist\n\033[0m");
+        return;
+    }
     //make sure file extension is .ccp
+    if(verbose == 1){
+    printf("\033[32m[verbose]\033[0mChecking if file extension is correct\n");
+    }
     char* extension = strrchr(fileName, '.');
     if(strcmp(extension, ".ccp") != 0){
         //red print
         printf("\033[1;31mError: file extension must be .ccp\n\033[0m");
         return;
     }
-    FILE* file = fopen(fileName, "r");
-    if(file == NULL){
-        //red print
-        printf("\033[1;31mError: file does not exist\n\033[0m");
-        return;
+    if(verbose == 1){
+    printf("\033[32m[verbose]\033[0mGetting file content...\n");
     }
     char line[200];
     while(fgets(line, 200, file) != NULL){

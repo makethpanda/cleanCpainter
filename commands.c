@@ -48,12 +48,22 @@ Command* parseCommand(char command[]){
     strcpy(cmd->commandName, commandType);
     //if the command is a file command
     if (strcmp(commandType, "file") == 0){
-        // instead of parameters we will have to get the path to a file
+        int verbo = 0;
         // create int path and allocate memory for it
         int* path = (int *) malloc((strlen(command) + 1) * sizeof(int));
+        //get command from i+5 until space
+        if(strstr(command+5, "-verbose") != NULL){
+            printf("\033[32m[verbose]\033[0mVerbose mode on\n");
+            //get path after the '-verbose'
+            strcpy((char *) path, command + 14);
+            printf("\033[32m[verbose]\033[0mPath: %s\n", path);
+            verbo = 1;
+        }
+        else{
+            strcpy((char *) path, command + 5);
+        }
         // copy the path to the path variable
-        strcpy((char *) path, command + 5);
-        fileCommand((char *) path, 0);
+        fileCommand((char *) path, verbo);
         // Make sure to free the allocated memory
         free(path);
         //make command
@@ -103,9 +113,15 @@ void executeCommand(Command* comm){
         }
         printf("\n");
     }
-    
-    if(strcmp(cmd.commandName, "clear") == 0){
+    if(strcmp(cmd.commandName, "file") == 0){
+        if(verbose == 1){
+            printf("\033[32m[verbose]\033[0mDone!\n");
+        }
+        return;
+    }
+    else if(strcmp(cmd.commandName, "clear") == 0){
         printf("\033[2J\033[1;1H");
+        return;
     }
     else if(strcmp(cmd.commandName, "exit") == 0){
         printf("Exiting program...\n");
@@ -256,6 +272,7 @@ void executeCommand(Command* comm){
             if (cmd.parameters[0] == stringToint("all")){
                 printf("\033[1mAvailable commands:\033[0m\n");
                 printf("    \033[1mclear\033[0m\n");
+                printf("    \033[1mfile\033[0m\n");
                 printf("    \033[1mexit\033[0m\n");
                 printf("    \033[1mpoint\033[0m\n");
                 printf("    \033[1mline\033[0m\n");
@@ -274,6 +291,13 @@ void executeCommand(Command* comm){
                 printf("    $:clear (-verbose)\n");
                 printf("clears the screen\n");
                 printf("\033[1mverbose:\033[0m optional parameter used for debugging\n");
+            }
+            else if (cmd.parameters[0] == stringToint("file")){
+                printf("\033[1musage:\033[0m\n");
+                printf("    $:file (-verbose) <file.ccp>\n");
+                printf("read instructions from a file\n");
+                printf("\033[1mverbose:\033[0m optional parameter used for debugging\n");
+                printf("\033[1mfile.ccp:\033[0m file to read instructions from\n");
             }
             else if (cmd.parameters[0] == stringToint("exit")){
                 printf("\033[1musage:\033[0m\n");
