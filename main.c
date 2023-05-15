@@ -6,11 +6,13 @@
 
 
 int main(){
+    system("chcp 65001");
+    system("cls");
     printf("\033[90mWelcome to the cleanCpainter command line!, type 'help' for a list of commands\n\033[0m");
     while(1){
         printf("\033[1;33m$: \033[0m");
-        char comm[200];
-        fgets(comm, 200, stdin);
+        char comm[250];
+        fgets(comm, 250, stdin);
         comm[strcspn(comm, "\n")] = '\0';
         // divide the char into commands separated by ";"
         char *token = strtok(comm, ";");

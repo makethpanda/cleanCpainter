@@ -127,7 +127,31 @@ void plot(int verbose) {
 
     for (int y = 0; y < BOARD_SIZE; y++) {
         for (int x = 0; x < BOARD_SIZE; x++) {
-            printf("%c ", board[y][x]);
+            switch (board[y][x]) {
+                case '.':
+                    printf("\e[1;30m■ \e[0m");
+                    break;
+                case 'P':
+                    printf("\e[1;34m■ \e[0m");
+                    break;
+                case 'L':
+                    printf("\e[1;31m■ \e[0m");
+                    break;
+                case 'C':
+                    printf("\e[1;35m■ \e[0m");
+                    break;
+                case 'S':
+                    printf("\e[1;33m■ \e[0m");
+                    break;
+                case 'R':
+                    //green
+                    printf("\e[1;35m■ \e[0m");
+                    break;
+                default:
+                    printf("Unknown character '%c' ", board[y][x]);
+                    break;
+            }
+                        
         }
         printf("\n");
     }

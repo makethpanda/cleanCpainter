@@ -1,6 +1,6 @@
+square 0 0 30;
 circle 15 15 14;
-line 1 15 29 15;
-line 15 1 15 29;
-polygon 15 1 8 22 22 22;
-polygon 15 29 8 8 22 8;
-plot
+polygon 15 2 4 22 26 22;
+polygon 15 27 4 8 26 8;
+point 15 15;
+circle 15 15 3;

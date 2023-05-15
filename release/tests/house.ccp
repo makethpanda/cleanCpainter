@@ -1,0 +1,1 @@
+rectangle 5 15 20 10;polygon 5 15 15 5 25 15;line 8 20 8 25;line 22 20 22 25

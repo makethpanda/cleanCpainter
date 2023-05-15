@@ -45,6 +45,7 @@ typedef struct {
 typedef struct {
     int id;
     ShapeType type;
+    //add colors
     union {
         Point point;
         Line line;

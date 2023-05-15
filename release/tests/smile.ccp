@@ -1,0 +1,1 @@
+circle 10 10 2;circle 20 10 2;line 10 20 20 20;line 5 25 25 25

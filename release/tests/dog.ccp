@@ -1,0 +1,1 @@
+circle 15 15 8;circle 10 13 2;circle 20 13 2;point 15 18;line 9 9 6 12;line 21 9 24 12;line 6 12 9 15;line 24 12 21 15;polygon 12 20 15 23 18 20;line 12 20 15 17;line 15 17 18 20
