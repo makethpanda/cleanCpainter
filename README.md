@@ -8,7 +8,7 @@ the shape drawing programming tool
 
 
 
-CleanCPainter is a command-line drawing tool realized by BOUDJEDID Julien and PHO Mattheo that allows users to create and manage a variety of simple geometric shapes in a terminal. Users can draw points, lines, circles, squares, rectangles, and polygons by entering specific commands. The shapes are then plotted on a fixed-size board, and the user can list, delete, or erase shapes as needed. The user can write instructions in files and execute them in the program.
+CleanCPainter is a command-line drawing tool realized by Julien (MakethPanda) and Mattheo (Tassanix), two L1 at EFREI Paris that allows users to create and manage a variety of simple geometric shapes in a terminal. Users can draw points, lines, circles, squares, rectangles, and polygons by entering specific commands. The shapes are then plotted on a fixed-size board, and the user can list, delete, or erase shapes as needed. The user can write instructions in files and execute them in the program.
 
 ## Table of Contents
 
