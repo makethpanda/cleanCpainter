@@ -117,7 +117,7 @@ char line[200];
 
 example ccp file content:
 
-<img width="162" alt="image" src="https://github.com/makethpanda/cleanCpainter/assets/42862794/59a85cc6-288f-47e8-985e-f364c33f151b">
+<img width="343" alt="image" src="https://github.com/makethpanda/cleanCpainter/assets/42862794/73adc99c-262a-41d8-be76-fca952819260">
 
 # recursive file calling
 
@@ -141,7 +141,7 @@ Using our list function we can easily access all objects on the board:
 However, we can modify or delete content using either:
 
     - the delete function
-    <img width="326" alt="image" src="https://github.com/makethpanda/cleanCpainter/assets/42862794/182f7e52-0c0b-4547-a689-2785829d5c4f">
+ <img width="326" alt="image" src="https://github.com/makethpanda/cleanCpainter/assets/42862794/182f7e52-0c0b-4547-a689-2785829d5c4f">
 
 Or actually ***modify*** values using the special -edit parameter for the list command
 
