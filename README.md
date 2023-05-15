@@ -23,6 +23,7 @@ CleanCPainter is a command-line drawing tool realized by BOUDJEDID Julien and PH
 - Execute **multiple instruction** and includes a **verbose mode**
 - **Plot** shapes on a fixed-size board (📋)
 - **List** all shapes (📝)
+- **EDIT** shape values (📋)
 - **Delete** shapes by ID (❌)
 - **Erase** all shapes (🗑️)
 - **Help** command for available commands (❓)
