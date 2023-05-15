@@ -7,10 +7,14 @@
 
 //function to convert a file to a command
 
-void fileCommand(char* fileName, char verbose){
+void fileCommand(char* fileName, int verbose, int plotToFile){
     FILE* file = fopen(fileName, "r");
     if(verbose == 1){
     printf("\033[32m[verbose]\033[0mChecking if file exists...\n");
+    }
+    if (plotToFile == 1){
+        printf("\033[1;31mError: plot to file is not supported yet\n\033[0m");
+        return;
     }
     if(file == NULL){
         //red print
@@ -56,3 +60,4 @@ void fileCommand(char* fileName, char verbose){
     }
     fclose(file);
 }
+

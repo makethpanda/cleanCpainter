@@ -61,6 +61,7 @@ extern int shapeCount;
 void addShape(Shape shape, int verbose);
 void plot(int verbose);
 void listShapes();
+void editShape(int id, int argnum, int newarg);
 void deleteShape(int id);
 void erase();
 

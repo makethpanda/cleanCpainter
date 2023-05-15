@@ -136,9 +136,141 @@ void plot(int verbose) {
 void listShapes() {
     for (int i = 0; i < shapeCount; i++) {
         Shape shape = shapes[i];
-        printf("Shape ID: %d, type: %d\n", shape.id, shape.type);
+        //convert type to string
+        char* type;
+        switch (shape.type) {
+            case POINT:
+                type = "Point";
+                break;
+            case LINE:
+                type = "Line";
+                break;
+            case CIRCLE:
+                type = "Circle";
+                break;
+            case SQUARE:
+                type = "Square";
+                break;
+            case RECTANGLE:
+                type = "Rectangle";
+                break;
+            case POLYGON:
+                type = "Polygon";
+                break;
+            default:
+                type = "Unknown";
+                break;
+        }
+        printf("Shape ID: %d, type: %s\n", shape.id, type);
+        switch (shape.type) {
+            case POINT:
+                printf("    | Point at (%d, %d)\n", shape.point.x, shape.point.y);
+                break;
+            case LINE:
+                printf("    | Line from (%d, %d) to (%d, %d)\n", shape.line.start.x, shape.line.start.y,
+                       shape.line.end.x, shape.line.end.y);
+                break;
+            case CIRCLE:
+                printf("    | Circle with center (%d, %d) and radius %d\n", shape.circle.center.x, shape.circle.center.y, shape.circle.radius);
+                break;
+            case SQUARE:
+                printf("    | Square with top left corner at (%d, %d) and side length %d\n", shape.square.topLeft.x, shape.square.topLeft.y, shape.square.length);
+                break;
+            case RECTANGLE:
+                printf("    | Rectangle with top left corner at (%d, %d) and width %d and height %d\n", shape.rectangle.topLeft.x, shape.rectangle.topLeft.y, shape.rectangle.width, shape.rectangle.height);
+                break;
+            case POLYGON:
+                printf("    | Polygon with %d points: ", shape.polygon.count);
+                for (int i = 0; i < shape.polygon.count/2; i++) {
+                    printf("(%d, %d) ", shape.polygon.points[i].x, shape.polygon.points[i].y);
+                }
+                printf("\n");
+                break;
+            default:
+                break;
+        }
     }
 }
+
+void editShape(int id, int argnum, int newarg) {
+    if (id < 0 || id >= shapeCount) {
+        printf("Invalid shape ID.\n");
+        return;
+    }
+    Shape shape = shapes[id];
+    //for each type of shape, check if the arg number exists, then change the corresponding argument
+    if (shape.type == POINT) {
+        if (argnum == 1) {
+            shape.point.x = newarg;
+        } else if (argnum == 2) {
+            shape.point.y = newarg;
+        } else {
+            printf("Invalid argument number.\n");
+            return;
+        }
+    } else if (shape.type == LINE) {
+        if (argnum == 1) {
+            shape.line.start.x = newarg;
+        } else if (argnum == 2) {
+            shape.line.start.y = newarg;
+        } else if (argnum == 3) {
+            shape.line.end.x = newarg;
+        } else if (argnum == 4) {
+            shape.line.end.y = newarg;
+        } else {
+            printf("Invalid argument number.\n");
+            return;
+        }
+    } else if (shape.type == CIRCLE) {
+        if (argnum == 1) {
+            shape.circle.center.x = newarg;
+        } else if (argnum == 2) {
+            shape.circle.center.y = newarg;
+        } else if (argnum == 3) {
+            shape.circle.radius = newarg;
+        } else {
+            printf("Invalid argument number.\n");
+            return;
+        }
+    } else if (shape.type == SQUARE) {
+        if (argnum == 1) {
+            shape.square.topLeft.x = newarg;
+        } else if (argnum == 2) {
+            shape.square.topLeft.y = newarg;
+        } else if (argnum == 3) {
+            shape.square.length = newarg;
+        } else {
+            printf("Invalid argument number.\n");
+            return;
+        }
+    } else if (shape.type == RECTANGLE) {
+        if (argnum == 1) {
+            shape.rectangle.topLeft.x = newarg;
+        } else if (argnum == 2) {
+            shape.rectangle.topLeft.y = newarg;
+        } else if (argnum == 3) {
+            shape.rectangle.width = newarg;
+        } else if (argnum == 4) {
+            shape.rectangle.height = newarg;
+        } else {
+            printf("Invalid argument number.\n");
+            return;
+        }
+    } else if (shape.type == POLYGON) {
+        if (argnum > shape.polygon.count) {
+            printf("Invalid argument number.\n");
+            return;
+        }
+        else if (argnum%2 == 0){
+            shape.polygon.points[argnum/2].y = newarg;
+        }
+        else{
+            shape.polygon.points[argnum/2].x = newarg;
+        }
+    }
+    shapes[id] = shape;
+}
+
 void deleteShape(int id) {
     if (id < 0 || id >= shapeCount) {
         printf("Invalid shape ID.\n");

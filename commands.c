@@ -15,6 +15,27 @@ int stringToint(char* str) {
     return result;
 }
 
+//checks for specific parameters
+char* getCharparam(char param[]){
+    if(strstr(param, "-verbose") != NULL){
+        //returns the 
+        return "v";
+    }
+    //check for "tofile"
+    else if(strstr(param, "-tofile") != NULL){
+        return "t";
+    }
+    else if (strstr(param, "-read") != NULL){
+        return "r";
+    }
+    else if (strstr(param, "-edit") != NULL){
+        return "e";
+    }
+    else{
+        return " ";
+    }
+}
+
 Command* parseCommand(char command[]){
     int i = 0;
     //make sure commandType has memory allocated
@@ -27,9 +48,111 @@ Command* parseCommand(char command[]){
     }
     commandType[i] = '\0';
 
+    Command* cmd = (Command*) malloc(sizeof(Command));
+    // Allocate memory for the command name and copy the value
+    cmd->commandName = (char *) malloc((strlen(commandType) + 1) * sizeof(char));
+    strcpy(cmd->commandName, commandType);
+    //if the command is a file command
+    if (strcmp(commandType, "file") == 0){
+        int verbo = 0;
+        // create int path and allocate memory for it
+        int* path = (int *) malloc((strlen(command) + 1) * sizeof(int));
+        //get command from i+5 until space
+        //check for param
+        int lentocommand = 5;
+        int tofile = 0;
+        //for i in range(2)
+        for (int i = 0; i < 2; i++){
+            char temp[10]; // temporary variable to store the first 10 characters
+            strcpy(temp, command + lentocommand); // copy the first 10 characters of command + lentocommand into temp
+            temp[9] = '\0'; // add a null terminator to ensure that temp is a valid C string
+            char* param = getCharparam(temp); // pass the first 7 characters to getCharparam
+            if (param == "v"){
+                printf("\033[32m[verbose]\033[0mVerbose mode on\n");
+                lentocommand += 9;
+                verbo = 1;
+            }
+            else if(param == "t"){
+                lentocommand += 8;
+                int tofile = 1;
+            }
+        }
+        // if verbose print the length of the command
+        strcpy((char *) path, command + lentocommand);
+        // copy the path to the path variable
+        if (verbo) printf("\033[32m[verbose]\033[0mPath: %s\n", path);
+        fileCommand((char *) path, verbo, tofile);
+        // Make sure to free the allocated memory
+        free(path);
+        //make command
+        cmd->parameters = NULL;
+        cmd->paramNum = 0;
+        return cmd;
+    }
+    if (strcmp(commandType, "list") == 0){
+        //first param is the shape id and index of modified elem ex: -i 12.1
+        //second param is index of the shape ex: -i 12.1 > 5
+        int verbo = 0;
+        int lentocommand = 5;
+        int edit = 0;
+        
+        for (int i = 0; i < 2; i++){
+            char temp[10]; // temporary variable to store the first 10 characters
+            strcpy(temp, command + lentocommand); // copy the first 10 characters of command + lentocommand into temp
+            temp[9] = '\0'; // add a null terminator to ensure that temp is a valid C string
+            char* param = getCharparam(temp); // pass the first 7 characters to getCharparam
+            if (param == "v"){
+                printf("\033[32m[verbose]\033[0mVerbose mode on\n");
+                lentocommand += 9;
+                verbo = 1;
+            }
+            else if(param == "e"){
+                lentocommand += 6;
+                edit = 1;
+            }
+        }
+        if (edit==0){
+        }
+        else{
+            int i = lentocommand;
+            int j = 0;
+            int k = 0;
+            int param[4];
+
+            while(command[i] != '\0'){
+                if(command[i] == ' ' || command[i] == '.' || command[i] == '>'){
+                    if (command[i] != '>'){
+                    param[j] = k;
+                    j++;
+                    k = 0;
+                    }
+                }
+                else{
+                    //convert the char to int
+                    k = k * 10 + command[i] - '0';
+                }
+                i++;
+            }
+            //remove last param
+            param[j-1] = k;
+            // print all params
+            if (verbo){
+                printf("\033[32m[verbose]\033[0m Params:");
+                for(int i = 0; i < j+1; i++){
+                    printf(" %d", param[i]);
+                }
+            }
+            //make command
+            cmd->parameters = (int *) malloc(j * sizeof(int));
+            memcpy(cmd->parameters, param, j * sizeof(int));
+            // Set the number of parameters
+            cmd->paramNum = j;
+            return cmd;
+        }
+    }
     int j = 0;
     int k = 0;
-    int param[12];
+    int param[3];
     while(command[i] != '\0'){
         if(command[i] == ' '){
             param[j] = k;
@@ -42,41 +165,6 @@ Command* parseCommand(char command[]){
         }
         i++;
     }
-    Command* cmd = (Command*) malloc(sizeof(Command));
-    // Allocate memory for the command name and copy the value
-    cmd->commandName = (char *) malloc((strlen(commandType) + 1) * sizeof(char));
-    strcpy(cmd->commandName, commandType);
-    //if the command is a file command
-    if (strcmp(commandType, "file") == 0){
-        int verbo = 0;
-        // create int path and allocate memory for it
-        int* path = (int *) malloc((strlen(command) + 1) * sizeof(int));
-        //get command from i+5 until space
-        if(strstr(command+5, "-verbose") != NULL){
-            printf("\033[32m[verbose]\033[0mVerbose mode on\n");
-            //get path after the '-verbose'
-            strcpy((char *) path, command + 14);
-            printf("\033[32m[verbose]\033[0mPath: %s\n", path);
-            verbo = 1;
-        }
-        else{
-            strcpy((char *) path, command + 5);
-        }
-        // copy the path to the path variable
-        fileCommand((char *) path, verbo);
-        // Make sure to free the allocated memory
-        free(path);
-        //make command
-        cmd->parameters = NULL;
-        cmd->paramNum = 0;
-        return cmd;
-    }
-    /*
-    PROBLEM: the output params are not correct
-    ex: square 10 10 10
-    output: 0 10 10 10
-    tofix we do this:
-*/
     param[j] = k;
     //remove the first element of the array
     for(int i = 0; i < j; i++){
@@ -250,10 +338,20 @@ void executeCommand(Command* comm){
         }
     }
     else if(strcmp(cmd.commandName, "plot") == 0){
+        //if first parameter is "tofile"
         plot(verbose);
     }
     else if(strcmp(cmd.commandName, "list") == 0){
-        listShapes();
+        if(cmd.paramNum == 3){
+            if (verbose){
+                printf("\033[32m[verbose]\033[0mAttempting edit\n");
+            }
+            editShape(cmd.parameters[0], cmd.parameters[1], cmd.parameters[2]);
+            listShapes();
+        }
+        else{
+            listShapes();
+        }
     }
     else if(strcmp(cmd.commandName, "delete") == 0){
         deleteShape(cmd.parameters[0]);
@@ -372,9 +470,14 @@ void executeCommand(Command* comm){
             }
             else if (cmd.parameters[0] == stringToint("list")){
                 printf("\033[1musage:\033[0m\n");
-                printf("    $:list (-verbose) \n");
+                printf("    $:list (-verbose) (-edit <ID>.<index> > <newValue>)\n");
                 printf("displays a list of all the geometric shapes that make up the image and all their information\n");
                 printf("\033[1mverbose:\033[0m optional parameter used for debugging\n");
+                printf("\033[1mID:\033[0m identifier of the shape to edit\n");
+                printf("\033[1mindex:\033[0m index of the value to edit starting at 1\n");
+                printf("\033[1mnewValue:\033[0m new value of the shape\n");
+                printf("\033[1mexample:\033[0m\n");
+                printf("    $:list -edit 1.1 > 10\n");
             }
             else if (cmd.parameters[0] == stringToint("delete")){
                 printf("\033[1musage:\033[0m\n");

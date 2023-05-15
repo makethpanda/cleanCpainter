@@ -10,6 +10,7 @@ typedef struct Command{
     int paramNum;
 } Command;
 int stringToint(char* str);
+char* getCharparam(char param[]);
 Command* parseCommand(char command[]);
 void executeCommand(Command* comm);
 #endif 

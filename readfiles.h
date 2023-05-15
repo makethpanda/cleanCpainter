@@ -11,6 +11,5 @@
 // Input: char* filename, char* mode
 // Output: int
 // Read the file and return the number of lines
-void fileCommand(char* filename, char verbose);
-
+void fileCommand(char* filename, int verbose, int plotToFile);
 #endif
