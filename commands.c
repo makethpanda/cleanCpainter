@@ -1,3 +1,8 @@
+/*
+commands.c 
+This file contains the functions used to parse the commands and execute them
+*/
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -5,6 +10,7 @@
 #include "shapes.h"
 #include "readfiles.h"
 
+//function used to convert a string to an int, used for parsing some params
 int stringToint(char* str) {
     int result = 0;
     int i = 0;
@@ -36,6 +42,7 @@ char* getCharparam(char param[]){
     }
 }
 
+//function to parse a string into a command
 Command* parseCommand(char command[]){
     int i = 0;
     //make sure commandType has memory allocated
@@ -179,7 +186,7 @@ Command* parseCommand(char command[]){
     return cmd;
 }
 
-//execute the command
+//function to execute the command
 void executeCommand(Command* comm){
     Command cmd = *comm;
     //create verbose flag

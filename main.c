@@ -3,7 +3,11 @@
 #include <string.h>
 #include "commands.h"
 #include "shapes.h"
+/*
+main.c
 
+This file contains the main function that runs the program
+*/
 
 int main(){
     system("chcp 65001");

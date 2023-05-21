@@ -1,6 +1,5 @@
 #ifndef SHAPES_H
 #define SHAPES_H
-
 #define MAX_SHAPES 100
 #define BOARD_SIZE 30
 #define MAX_POLYGON_POINTS 12
